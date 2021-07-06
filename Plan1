@@ -1,0 +1,311 @@
+Private Sub alterar_cadastro_Click()
+    'Desligando atualização de tela
+    Application.ScreenUpdating = False
+
+    'Declarando variáveis
+    Dim W   As Worksheet
+    Dim V   As Worksheet
+    
+    'Inicializando as variáveis das planilhas
+    Set W = Sheets("BANCO DE DADOS")
+    Set V = Sheets("VALE")
+    
+    V.Select
+    Range("K20:M20").Select
+    
+    
+    
+    '||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+    'Validando os dados
+    If ActiveCell = "" Then
+        
+        MsgBox "O campo 'CPF' não pode estar vazio.", vbExclamation, "Erro"
+        Range("K20:M20").Select
+        Application.ScreenUpdating = True
+        Exit Sub
+    
+    End If
+    
+    Range("K21:P21").Select
+    
+    If ActiveCell = "" Then
+        
+        MsgBox "O campo 'Nome' não pode estar vazio.", vbExclamation, "Erro"
+        Range("K21:P21").Select
+        Application.ScreenUpdating = True
+        Exit Sub
+    
+    End If
+    
+    Range("K22:Q22").Select
+    
+    If ActiveCell = "" Then
+        
+        MsgBox "O campo 'Endereço' não pode estar vazio.", vbExclamation, "Erro"
+        Range("K22:Q22").Select
+        Application.ScreenUpdating = True
+        Exit Sub
+    
+    End If
+    
+    Range("K23:L23").Select
+    
+    If ActiveCell = "" Then
+        
+        MsgBox "O campo 'RG' não pode estar vazio.", vbExclamation, "Erro"
+        Range("K23:L23").Select
+        Application.ScreenUpdating = True
+        Exit Sub
+    
+    End If
+    
+    Range("K25:L25").Select
+    
+    If ActiveCell = "" Then
+        
+        MsgBox "O campo 'Matrícula' não pode estar vazio.", vbExclamation, "Erro"
+        Range("K25:L25").Select
+        Application.ScreenUpdating = True
+        Exit Sub
+    
+    End If
+    
+    Range("N25").Select
+    
+    If ActiveCell = "" Then
+        
+        MsgBox "O campo 'Vínculo' não pode estar vazio.", vbExclamation, "Erro"
+        Range("N25").Select
+        Application.ScreenUpdating = True
+        Exit Sub
+    
+    End If
+    'Fim da validação dos dados
+    '||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+    
+    
+    
+    '||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+    'atribui à variável "cpf" o valor da celula ativa (que neste momento é "K20:M20")
+    Range("K20:M20").Select
+    cpf = ActiveCell.Value
+    '||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+        
+    
+    'Agora volta à planilha W e posiciona o cursor sobre a celula A2
+    W.Select
+    W.Range("A2").Select
+    
+    'Loop que procura o cpf desejado no banco de dados
+    '||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+    Do While ActiveCell.Value <> ""
+    
+        If ActiveCell.Value = cpf Then
+            
+            ActiveCell.Offset(0, 1).Value = V.Range("K21:P21").Value
+            ActiveCell.Offset(0, 2).Value = V.Range("K22:Q22").Value
+            ActiveCell.Offset(0, 3).Value = V.Range("K23:L23").Value
+            ActiveCell.Offset(0, 4).Value = V.Range("N23").Value
+            ActiveCell.Offset(0, 5).Value = V.Range("K24:L24").Value
+            ActiveCell.Offset(0, 6).Value = V.Range("K25:L25").Value
+            ActiveCell.Offset(0, 7).Value = V.Range("K26:L26").Value
+            ActiveCell.Offset(0, 8).Value = V.Range("N25").Value
+            
+            Exit Do
+        
+        End If
+        
+        ActiveCell.Offset(1, 0).Select
+            
+    Loop
+    '|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+    
+    'Apagam-se os dados do formulário
+    V.Select
+    Range("K20:M20,K21:P21,K22:Q22,K23:L23,N23,K24:L24,K25:L25,K26:L26,N25").Select
+    Range("N25").Activate
+    Application.CutCopyMode = False
+    Selection.ClearContents
+    
+    'Posiciona o cursor sobre as celulas K20 a M20
+    V.Range("K20:M20").Select
+    
+    MsgBox "Dados do servidor alterados com sucesso!", vbOKOnly, "Confirmação de Alteração de Cadastro"
+    
+    ActiveWorkbook.Save
+    
+    'Religa a atualização de tela
+    Application.ScreenUpdating = True
+    
+End Sub
+
+Private Sub buscar_servidor_Click()
+
+    'Desligando atualização de tela
+    Application.ScreenUpdating = False
+
+    'Declarando variáveis
+    Dim W   As Worksheet
+    Dim V   As Worksheet
+    Dim cpf As Double
+    
+    'Inicializando as variáveis das planilhas
+    Set W = Sheets("BANCO DE DADOS")
+    Set V = Sheets("VALE")
+    
+    
+    '||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+    'Este bloco faz o seguinte:
+    '1.seleciona a planilha VALE
+    '2.seleciona as células K20 a M20 para pegar o CPF a ser procurado
+    '3.atribui à variável "cpf" o valor da celula ativa (que neste momento é "K20:M20")
+    V.Select
+    V.Range("K20:M20").Select
+    cpf = ActiveCell.Value
+    '||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+        
+    
+    'Agora volta à planilha W e posiciona o cursor sobre a celula A2
+    W.Select
+    W.Range("A2").Select
+    
+    'Loop que procura o cpf desejado no banco de dados
+    '||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+    Do While ActiveCell.Value <> ""
+    
+        If ActiveCell.Value = cpf Then
+        
+            V.Range("K21:P21").Value = ActiveCell.Offset(0, 1).Value
+            V.Range("K22:Q22").Value = ActiveCell.Offset(0, 2).Value
+            V.Range("K23:L23").Value = ActiveCell.Offset(0, 3).Value
+            V.Range("N23").Value = ActiveCell.Offset(0, 4).Value
+            V.Range("K24:L24").Value = ActiveCell.Offset(0, 5).Value
+            V.Range("K25:L25").Value = ActiveCell.Offset(0, 6).Value
+            V.Range("K26:L26").Value = ActiveCell.Offset(0, 7).Value
+            V.Range("N25").Value = ActiveCell.Offset(0, 8).Value
+            
+            Exit Do
+        
+        End If
+        
+        ActiveCell.Offset(1, 0).Select
+            
+    Loop
+    '|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+    
+    'Volta-se à planilha VALE e posiciona o cursor sobre as celulas K20 a M20
+    V.Select
+    V.Range("K20:M20").Select
+    
+    'Religa a atualização de tela
+    Application.ScreenUpdating = True
+
+End Sub
+
+Private Sub CommandButton1_Click()
+
+    'Desligando atualização de tela
+    Application.ScreenUpdating = False
+    
+    'Declarando e inicializando a variável correspondente à planilha
+    Dim V   As Worksheet
+    Set V = Sheets("VALE")
+    
+    'Apagam-se os dados do formulário
+    V.Select
+    Range("K20:M20,K21:P21,K22:Q22,K23:L23,N23,K24:L24,K25:L25,K26:L26,N25").Select
+    Range("N25").Activate
+    Application.CutCopyMode = False
+    Selection.ClearContents
+    
+    'Posiciona o cursor sobre as celulas K20 a M20
+    V.Range("K20:M20").Select
+    
+    'Religa a atualização de tela
+    Application.ScreenUpdating = True
+
+End Sub
+
+Private Sub CommandButton2_Click()
+
+    'Desligando atualização de tela
+    Application.ScreenUpdating = False
+
+    'Declarando variáveis
+    Dim C   As Worksheet
+    Dim V   As Worksheet
+    Dim vale As String
+    Dim flag As Integer
+    
+    'Inicializando as variáveis das planilhas
+    Set C = Sheets("CONTROLE")
+    Set V = Sheets("VALE")
+    flag = 0
+    
+    V.Select
+    V.Range("J38:K38").Select
+    vale = ActiveCell.Value
+    
+    If ActiveCell.Value = "" Then
+        MsgBox "Digite o número do Vale Gás a ser cancelado.", vbExclamation, "Aviso"
+        Application.ScreenUpdating = True
+        Exit Sub
+    End If
+    
+    'Agora volta à planilha W e posiciona o cursor sobre a celula B2
+    C.Select
+    C.Range("B2").Select
+    
+    'Loop que procura o vale desejado no CONTROLE
+    Do While ActiveCell.Value <> ""
+    
+        If ActiveCell.Value = vale Then
+        
+            If ActiveCell.Offset(0, 2).Value = "Cancelado" Then
+            
+                MsgBox "Vale Gás " & vale & " já cancelado!", vbCritical, ""
+                V.Select
+                V.Range("J38:K38").Select
+                Selection.ClearContents
+            
+            Else
+            
+            ActiveCell.Offset(0, 2).Value = "Cancelado"
+            flag = 1
+            Exit Do
+        
+            End If
+        
+        End If
+        
+        ActiveCell.Offset(1, 0).Select
+            
+    Loop
+    
+    If flag = 0 Then
+    
+        MsgBox "Vale Gás '" & vale & "' não existe!", vbExclamation, "Aviso"
+        V.Select
+        V.Range("J38:K38").Select
+        Selection.ClearContents
+        
+    Else
+    
+        'Posiciona o cursor sobre as celulas K20 a M20
+        V.Select
+        V.Range("J38:K38").Select
+        Selection.ClearContents
+    
+        MsgBox "Vale Gás '" & vale & "' cancelado com sucesso.", vbOKOnly, "Confirmação de Cancelamento"
+        
+    End If
+    
+    ActiveWorkbook.Save
+    
+    Application.ScreenUpdating = True
+
+End Sub
+
+Private Sub Worksheet_SelectionChange(ByVal Target As Range)
+
+End Sub
