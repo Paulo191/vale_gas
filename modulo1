@@ -1,0 +1,277 @@
+Sub Cadastrar()
+'
+' Cadastrar Macro
+'
+
+'
+    Application.ScreenUpdating = False
+    
+    Sheets("VALE").Select
+    Range("K4:M4").Select
+    
+    '||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+    'Validando os dados
+    If ActiveCell = "" Then
+        
+        MsgBox "O campo 'CPF' não pode estar vazio.", vbExclamation, "Erro"
+        Range("K4:M4").Select
+        Application.ScreenUpdating = True
+        Exit Sub
+    
+    End If
+    
+    Range("K5:P5").Select
+    
+    If ActiveCell = "" Then
+        
+        MsgBox "O campo 'Nome' não pode estar vazio.", vbExclamation, "Erro"
+        Range("K5:P5").Select
+        Application.ScreenUpdating = True
+        Exit Sub
+    
+    End If
+    
+    Range("K6:Q6").Select
+    
+    If ActiveCell = "" Then
+        
+        MsgBox "O campo 'Endereço' não pode estar vazio.", vbExclamation, "Erro"
+        Range("K6:Q6").Select
+        Application.ScreenUpdating = True
+        Exit Sub
+    
+    End If
+    
+    Range("K7:L7").Select
+    
+    If ActiveCell = "" Then
+        
+        MsgBox "O campo 'RG' não pode estar vazio.", vbExclamation, "Erro"
+        Range("K7:L7").Select
+        Application.ScreenUpdating = True
+        Exit Sub
+    
+    End If
+    
+    Range("K9:L9").Select
+    
+    If ActiveCell = "" Then
+        
+        MsgBox "O campo 'Matrícula' não pode estar vazio.", vbExclamation, "Erro"
+        Range("K9:L9").Select
+        Application.ScreenUpdating = True
+        Exit Sub
+    
+    End If
+    
+    Range("N9").Select
+    
+    If ActiveCell = "" Then
+        
+        MsgBox "O campo 'Vínculo' não pode estar vazio.", vbExclamation, "Erro"
+        Range("N9").Select
+        Application.ScreenUpdating = True
+        Exit Sub
+    
+    End If
+    'Fim da validação dos dados
+    '||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+    
+    
+    
+    '|||||||||||||||||||||||||||||||||||||||| Execução do cadastro ||||||||||||||||||||||||||||||||||||||||||||||
+    
+    Range("K4:M4").Select
+    Selection.Copy
+    Sheets("BANCO DE DADOS").Select
+    Range("A2").Select
+    Selection.End(xlDown).Select
+    Selection.End(xlDown).Select
+    Selection.End(xlUp).Select
+    ActiveCell.Offset(1, 0).Select
+    ActiveSheet.Paste
+    Application.CutCopyMode = False
+    With Selection
+        .HorizontalAlignment = xlGeneral
+        .VerticalAlignment = xlCenter
+        .WrapText = False
+        .Orientation = 0
+        .AddIndent = False
+        .IndentLevel = 0
+        .ShrinkToFit = False
+        .ReadingOrder = xlContext
+        .MergeCells = False
+    End With
+    Selection.UnMerge
+    
+    Sheets("VALE").Select
+    Range("K5:P5").Select
+    Selection.Copy
+    Sheets("BANCO DE DADOS").Select
+    ActiveCell.Offset(0, 1).Select
+    ActiveSheet.Paste
+    Application.CutCopyMode = False
+    With Selection
+        .HorizontalAlignment = xlGeneral
+        .VerticalAlignment = xlCenter
+        .WrapText = False
+        .Orientation = 0
+        .AddIndent = False
+        .IndentLevel = 0
+        .ShrinkToFit = False
+        .ReadingOrder = xlContext
+        .MergeCells = False
+    End With
+    With Selection
+        .HorizontalAlignment = xlGeneral
+        .VerticalAlignment = xlCenter
+        .WrapText = False
+        .Orientation = 0
+        .AddIndent = False
+        .IndentLevel = 0
+        .ShrinkToFit = False
+        .ReadingOrder = xlContext
+        .MergeCells = False
+    End With
+    Selection.UnMerge
+    
+    Sheets("VALE").Select
+    Range("K6:Q6").Select
+    Selection.Copy
+    Sheets("BANCO DE DADOS").Select
+    ActiveCell.Offset(0, 1).Select
+    ActiveSheet.Paste
+    Application.CutCopyMode = False
+    With Selection
+        .HorizontalAlignment = xlGeneral
+        .VerticalAlignment = xlCenter
+        .WrapText = False
+        .Orientation = 0
+        .AddIndent = False
+        .IndentLevel = 0
+        .ShrinkToFit = False
+        .ReadingOrder = xlContext
+        .MergeCells = False
+    End With
+    With Selection
+        .HorizontalAlignment = xlGeneral
+        .VerticalAlignment = xlCenter
+        .WrapText = False
+        .Orientation = 0
+        .AddIndent = False
+        .IndentLevel = 0
+        .ShrinkToFit = False
+        .ReadingOrder = xlContext
+        .MergeCells = False
+    End With
+    Selection.UnMerge
+    
+    Sheets("VALE").Select
+    Range("K7:L7").Select
+    Selection.Copy
+    Sheets("BANCO DE DADOS").Select
+    ActiveCell.Offset(0, 1).Select
+    ActiveSheet.Paste
+    Application.CutCopyMode = False
+    With Selection
+        .HorizontalAlignment = xlGeneral
+        .VerticalAlignment = xlCenter
+        .WrapText = False
+        .Orientation = 0
+        .AddIndent = False
+        .IndentLevel = 0
+        .ShrinkToFit = False
+        .ReadingOrder = xlContext
+        .MergeCells = False
+    End With
+    Selection.UnMerge
+    
+    Sheets("VALE").Select
+    Range("N7").Select
+    Selection.Copy
+    Sheets("BANCO DE DADOS").Select
+    ActiveCell.Offset(0, 1).Select
+    ActiveSheet.Paste
+    Sheets("VALE").Select
+    Range("K8:L8").Select
+    Application.CutCopyMode = False
+    Selection.Copy
+    Sheets("BANCO DE DADOS").Select
+    ActiveCell.Offset(0, 1).Select
+    ActiveSheet.Paste
+    Application.CutCopyMode = False
+    With Selection
+        .HorizontalAlignment = xlGeneral
+        .VerticalAlignment = xlCenter
+        .WrapText = False
+        .Orientation = 0
+        .AddIndent = False
+        .IndentLevel = 0
+        .ShrinkToFit = False
+        .ReadingOrder = xlContext
+        .MergeCells = False
+    End With
+    Selection.UnMerge
+    
+    Sheets("VALE").Select
+    Range("K9:L9").Select
+    Selection.Copy
+    Sheets("BANCO DE DADOS").Select
+    ActiveCell.Offset(0, 1).Select
+    ActiveSheet.Paste
+    Application.CutCopyMode = False
+    With Selection
+        .HorizontalAlignment = xlGeneral
+        .VerticalAlignment = xlCenter
+        .WrapText = False
+        .Orientation = 0
+        .AddIndent = False
+        .IndentLevel = 0
+        .ShrinkToFit = False
+        .ReadingOrder = xlContext
+        .MergeCells = False
+    End With
+    Selection.UnMerge
+    
+    Sheets("VALE").Select
+    Range("K10:L10").Select
+    Selection.Copy
+    Sheets("BANCO DE DADOS").Select
+    ActiveCell.Offset(0, 1).Select
+    ActiveSheet.Paste
+    Application.CutCopyMode = False
+    With Selection
+        .HorizontalAlignment = xlGeneral
+        .VerticalAlignment = xlCenter
+        .WrapText = False
+        .Orientation = 0
+        .AddIndent = False
+        .IndentLevel = 0
+        .ShrinkToFit = False
+        .ReadingOrder = xlContext
+        .MergeCells = False
+    End With
+    Selection.UnMerge
+    
+    Sheets("VALE").Select
+    Range("N9").Select
+    Selection.Copy
+    Sheets("BANCO DE DADOS").Select
+    ActiveCell.Offset(0, 1).Select
+    ActiveSheet.Paste
+    Application.CutCopyMode = False
+    
+    Sheets("VALE").Select
+    Range("K4:M4,K5:P5,K6:Q6,K7:L7,N7,K8:L8,K9:L9,K10:L10,N9").Select
+    Range("N9").Activate
+    Application.CutCopyMode = False
+    Selection.ClearContents
+    Range("K4:M4").Select
+    
+    MsgBox "Servidor cadastrado com sucesso!", vbOKOnly, "Confirmação"
+    
+    ActiveWorkbook.Save
+    
+    Application.ScreenUpdating = True
+        
+End Sub
