@@ -1,0 +1,185 @@
+Sub alimentar_controle()
+'
+' alimentar_controle Macro
+'
+
+'
+    Application.ScreenUpdating = False
+    
+    'Declaração de variáveis
+    Dim V As Worksheet
+    Dim W As Worksheet
+    Dim mes_atual As Integer
+    Dim mes_passado As Integer
+    Dim diferenca As Integer
+    Dim diferenca_ano As Integer
+    Dim cpf As Double
+    Dim vinc As String
+    Dim resposta As Integer
+    Dim flag As Integer
+    Dim ano_atual As Integer
+    Dim ano_passado As Integer
+    
+    flag = 0
+    Set V = Sheets("VALE")
+    Set W = Sheets("CONTROLE")
+    
+    V.Select
+    
+    V.Range("B6:C6").Select
+    
+    'Verifica se usuário digitou algum CPF
+    If ActiveCell = "" Then
+        MsgBox "Servidor não encontrado. Não é possível emitir o vale.", vbExclamation, "Aviso"
+        Application.ScreenUpdating = True
+        Exit Sub
+    End If
+    
+    V.Range("C4:G4").Select
+    
+    'Verifica se o servidor foi encontrado
+    If ActiveCell = "Servidor Não Encontrado" Then
+        MsgBox "Servidor não encontrado. Não é possível emitir o vale.", vbExclamation, "Aviso"
+        Application.ScreenUpdating = True
+        Exit Sub
+    End If
+    
+    V.Range("H11").Select
+    mes_atual = ActiveCell.Value
+    V.Range("H12").Select
+    ano_atual = ActiveCell.Value
+    
+    V.Range("E8").Select
+    vinc = ActiveCell
+    
+    'Pergunta ao usuário se quer emitir o vale de servidor em contrato mesmo estando em meses de exoneração de contratos
+    If vinc = "CT" Then
+    
+        If mes_atual = 1 Then
+            resposta = MsgBox("Estamos em Janeiro e este servidor está sob o regime de contrato. Tem certeza de que deseja emitir o vale mesmo assim?", vbExclamation + vbYesNo, "")
+            If resposta = vbNo Then
+                Application.ScreenUpdating = True
+                Exit Sub
+            End If
+            
+        ElseIf mes_atual = 11 Then
+            resposta = MsgBox("Estamos em Novembro e este servidor está sob o regime de contrato. Tem certeza de que deseja emitir o vale mesmo assim?", vbExclamation + vbYesNo, "")
+            If resposta = vbNo Then
+                Application.ScreenUpdating = True
+                Exit Sub
+            End If
+            
+        ElseIf mes_atual = 12 Then
+            resposta = MsgBox("Estamos em Dezembro e este servidor está sob o regime de contrato. Tem certeza de que deseja emitir o vale mesmo assim?", vbExclamation + vbYesNo, "")
+            If resposta = vbNo Then
+                Application.ScreenUpdating = True
+                Exit Sub
+            End If
+            
+        End If
+        
+    End If
+    
+    V.Range("B6:C6").Select
+    cpf = ActiveCell.Value
+    
+    'Posiciona cursor no último CPF preenchido em CONTROLE (na coluna D)
+    W.Select
+    W.Range("D2").Select
+    Selection.End(xlDown).Select
+    Selection.End(xlDown).Select
+    Range("D1048576").Select
+    Selection.End(xlUp).Select
+    
+    'Loop que verifica se servidor já teve vale emitido no mês corrente
+    Do While ActiveCell.Value <> "CPF"
+    
+        If ActiveCell.Value = cpf Then
+            mes_passado = ActiveCell.Offset(0, 3).Value
+            diferenca = mes_atual - mes_passado
+            ano_passado = ActiveCell.Offset(0, 5).Value
+            diferenca_ano = ano_atual - ano_passado
+            
+            If diferenca_ano = 0 And diferenca = 0 Then
+                MsgBox "Este servidor já teve um vale emitido este mês.", vbCritical, ""
+                
+                V.Select
+                V.Range("B6:C6").Select
+                Application.ScreenUpdating = True
+                Exit Sub
+                
+            Else
+                resposta = MsgBox("O vale pode ser emitido. Deseja mesmo emitir o vale?", vbQuestion + vbYesNo, "Confirmação")
+                If resposta = vbYes Then
+                    flag = 1
+                    Exit Do
+                    
+                Else
+                    Application.ScreenUpdating = True
+                    Exit Sub
+                End If
+                
+            End If
+        
+        End If
+        
+        ActiveCell.Offset(-1, 0).Select
+            
+    Loop
+    
+    If flag = 0 Then
+        resposta = MsgBox("O vale pode ser emitido. Deseja mesmo emitir o vale?", vbQuestion + vbYesNo, "Confirmação")
+        If resposta = vbNo Then
+            V.Select
+            V.Range("B6:C6").Select
+            Application.ScreenUpdating = True
+            Exit Sub
+        End If
+    End If
+
+    Sheets("VALE").Select
+    Range("B6:C6").Select
+    Selection.Copy
+    Sheets("CONTROLE").Select
+    Range("B1").Select
+    Selection.End(xlDown).Select
+    Selection.End(xlDown).Select
+    Range("D1048576").Select
+    Selection.End(xlUp).Select
+    ActiveCell.Offset(1, 0).Select
+    ActiveSheet.Paste
+    
+    Sheets("VALE").Select
+    Range("G11").Select
+    Application.CutCopyMode = False
+    Selection.Copy
+    Sheets("CONTROLE").Select
+    ActiveCell.Offset(0, 2).Select
+    Selection.PasteSpecial Paste:=xlPasteValuesAndNumberFormats, Operation:= _
+        xlNone, SkipBlanks:=False, Transpose:=False
+    Sheets("VALE").Select
+    Application.CutCopyMode = False
+    Range("B6:C6").Select
+    
+    
+    ''''''''''''' Invenção de CV (Código Verificador)''''''''''''''''
+    'Dim cv As String
+    'Dim num_aleat As Integer
+    
+    'Do While Len(cv) < 12
+    
+        
+    
+    'Loop
+    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
+    
+    MsgBox "Vale gerado com sucesso!", vbOKOnly, "Confirmação"
+    
+    Range("A1:G49").PrintOut
+    
+    ActiveWorkbook.Save
+    
+    Application.ScreenUpdating = True
+    
+End Sub
